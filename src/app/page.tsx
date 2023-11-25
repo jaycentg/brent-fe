@@ -4,11 +4,12 @@ import Footer from '@/components/footer';
 import { Search2Icon } from '@chakra-ui/icons'
 import { Button, Container, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 
 export default function Home() {
   const [query, setQuery] = useState('');
+  const router = useRouter();
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
@@ -28,6 +29,11 @@ export default function Home() {
             placeholder='What do you want to search?'
             color="#545454"
             onChange={(e) => {setQuery(e.currentTarget.value)}}
+            onKeyDown={(e) => {
+              if (e.key == 'Enter'){
+                router.push("search?q=" + query)
+              }
+            }}
           />
         </InputGroup>
       </Container>
@@ -37,9 +43,8 @@ export default function Home() {
         _hover={{ bg: "#f3f4f6" }} 
         color="#545454"
         onClick={(_) => {
-          // proses query 
-          const textShown = `Success, q: ${query}`
-          toast.success(textShown)}} 
+          router.push("search?q=" + query)
+        }} 
       >
         Search
       </Button>
