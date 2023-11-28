@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ currQuery }) => {
                     color="#545454"
                     onKeyDown={(e) => {
                         if (e.key == 'Enter'){
-                          router.push("search?q=" + query)
+                          router.push("/search?q=" + query)
                         }
                     }}
                 />
@@ -57,7 +57,7 @@ const Navbar: React.FC<NavbarProps> = ({ currQuery }) => {
                             transition: 'transform 0.3s ease-in-out' 
                         }}
                         onClick={(_) => {
-                            router.push("search?q=" + query)
+                            router.push("/search?q=" + query)
                           }}
                     />
                 </InputRightElement>
