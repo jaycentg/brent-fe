@@ -5,34 +5,29 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import axios from "axios";
-import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 export default function SearchPage(props: any) {
     const query = props["searchParams"]["q"]
-    const [result, setResult] = useState();
+    const [result, setResult] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [total, setTotal] = useState(0)
     
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
             try {
-                const resp = await axios.get('https://api.sampleapis.com/wines/reds')
+                const url = `${process.env.NEXT_PUBLIC_API_HOST}/search?q=${query}`
+                const resp = await axios.get(url)
                 setResult(resp.data)
+                setTotal(resp.data.length)
             } catch (err) {
                 console.log(err)
             }
             setLoading(false)
         }
         fetchData();
-    }, [])
-
-    useEffect(() => {
-        if (result != undefined) {
-            console.log(result[0]['winery'])
-        }
-    }, [result])
+    }, [query])
     
     const showContent = () => {
         if(loading || result == undefined) {
@@ -51,10 +46,12 @@ export default function SearchPage(props: any) {
             return (
                 <>
                     <Text color='#545454'>
-                        <Text as='span' fontWeight='bold'>1000</Text> {' '}
-                        {result[0]['winery']}
+                        <Text as='span' fontWeight='bold'>{total}</Text> {' '}
+                        Document(s) Found
                     </Text>
-                    <DocumentCard title={"15"} content={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac dignissim sodales. Cras malesuada, felis vitae pellentesque vehicula, ex velit pretium orci, eget dapibus ligula lacus ut ex. In dignissim, turpis in dapibus finibus, diam arcu vulputate augue, quis elementum nibh justo id sem. Sed semper purus in magna rhoncus, a feugiat sem accumsan. Sed tincidunt quis neque id ullamcorper. Mauris nec justo eu odio maximus pellentesque eget ut mauris. Ut commodo, ante in maximus porta, nisl nibh aliquam justo, eu feugiat magna dui vel augue. Praesent id nunc quis ligula convallis dictum sit amet non ante. Nulla tempor fermentum lacus et ultricies. Donec hendrerit orci eget aliquam hendrerit. Nunc quis felis sit amet sem posuere pharetra in sed metus. Nunc augue tellus, ultrices nec velit eu, pretium placerat mi. Ut pulvinar massa bibendum est euismod, ut tempor nunc tristique. Integer laoreet, est vel aliquet aliquet, eros orci bibendum ligula, at elementum dolor orci id ante."} />
+                    {result?.map((doc: any) => (
+                        <DocumentCard title={doc.doc_id} content={doc.content}/>
+                    ))}
                 </>
             )
         }

@@ -1,14 +1,57 @@
 "use client";
 
-import { Flex } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
+import axios from "axios";
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const DocumentPage = ({ params }: { params: { id: string } }) => {
     const router = useRouter();
+    const [loading, setLoading] = useState(true)
+    const [doc, setDoc] = useState()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            try {
+                const url = `${process.env.NEXT_PUBLIC_API_HOST}/doc/${params.id}`
+                const resp = await axios.get(url)
+                setDoc(resp.data)
+            } catch(err) {
+                console.log(err)
+            }
+            setLoading(false)
+        }
+        fetchData()
+    }, [])
+
     const handleImageClick = () => {
         router.push("/");
     }
+
+    const showContent = () => {
+        if (loading || doc == undefined) {
+            return (
+                <div className="flex justify-center items-center w-screen h-[70vh]">
+                  <Spinner
+                    thickness='4px'
+                    speed='0.65s'
+                    emptyColor='gray.200'
+                    color='teal'
+                    size='xl'
+                  />
+                </div>
+            )
+        } else {
+            return (
+                <div className="px-5 w-full text-content-gray">
+                    {doc['content']}
+                </div>
+            )
+        }
+    }
+
     return (
         <>
             <Flex
@@ -29,9 +72,7 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
                 />
             </Flex>
             <div className="font-bold w-full text-2xl p-5 flex justify-center text-content-gray">Document {params.id}</div>
-            <div className="px-5 w-full text-content-gray">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra erat ac dignissim sodales. Cras malesuada, felis vitae pellentesque vehicula, ex velit pretium orci, eget dapibus ligula lacus ut ex. In dignissim, turpis in dapibus finibus, diam arcu vulputate augue, quis elementum nibh justo id sem. Sed semper purus in magna rhoncus, a feugiat sem accumsan. Sed tincidunt quis neque id ullamcorper. Mauris nec justo eu odio maximus pellentesque eget ut mauris. Ut commodo, ante in maximus porta, nisl nibh aliquam justo, eu feugiat magna dui vel augue. Praesent id nunc quis ligula convallis dictum sit amet non ante. Nulla tempor fermentum lacus et ultricies. Donec hendrerit orci eget aliquam hendrerit. Nunc quis felis sit amet sem posuere pharetra in sed metus. Nunc augue tellus, ultrices nec velit eu, pretium placerat mi. Ut pulvinar massa bibendum est euismod, ut tempor nunc tristique. Integer laoreet, est vel aliquet aliquet, eros orci bibendum ligula, at elementum dolor orci id ante.
-            </div>
+            {showContent()}
         </>
     )
 }

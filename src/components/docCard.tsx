@@ -27,7 +27,7 @@ const DocumentCard: React.FC<documentCardProps> = ({
             }}
         >
             <Text isTruncated fontWeight='bold' color='#545454' fontSize='20'>Document {title}</Text>
-            <Text color='#545454' fontSize='15' noOfLines={3}>{content}</Text>
+            <Text color='#545454' fontSize='15' noOfLines={2}>{content}</Text>
         </Box>
     )
 }
