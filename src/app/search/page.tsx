@@ -43,17 +43,25 @@ export default function SearchPage(props: any) {
                 </div>
               )
         } else{
-            return (
-                <>
-                    <Text color='#545454'>
-                        <Text as='span' fontWeight='bold'>{total}</Text> {' '}
-                        Document(s) Found
-                    </Text>
-                    {result?.map((doc: any) => (
-                        <DocumentCard title={doc.doc_id} content={doc.content}/>
-                    ))}
-                </>
-            )
+            if (total != 0) {
+                return (
+                    <>
+                        <Text color='#545454'>
+                            <Text as='span' fontWeight='bold'>{total}</Text> {' '}
+                            Document(s) Found
+                        </Text>
+                        {result?.map((doc: any) => (
+                            <DocumentCard title={doc.doc_id} content={doc.content}/>
+                        ))}
+                    </>
+                )
+            } else {
+                return (
+                    <div className="flex justify-center items-center">
+                        <Text color='#545454'>There is no matching document</Text>
+                    </div>
+                )
+            }
         }
     }
     return (
