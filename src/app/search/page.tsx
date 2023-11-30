@@ -51,7 +51,11 @@ export default function SearchPage(props: any) {
                             Document(s) Found
                         </Text>
                         {result?.map((doc: any) => (
-                            <DocumentCard title={doc.doc_id} content={doc.content}/>
+                            <DocumentCard 
+                                title={doc.doc_id} 
+                                content={doc.content} 
+                                key={doc.doc_id}
+                            />
                         ))}
                     </>
                 )

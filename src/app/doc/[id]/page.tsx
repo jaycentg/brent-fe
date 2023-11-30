@@ -24,7 +24,7 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
             setLoading(false)
         }
         fetchData()
-    }, [])
+    }, [params.id])
 
     const handleImageClick = () => {
         router.push("/");
