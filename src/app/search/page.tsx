@@ -18,6 +18,7 @@ export default function SearchPage(props: any) {
             setLoading(true)
             try {
                 const url = `${process.env.NEXT_PUBLIC_API_HOST}/search?q=${query}`
+                console.log(url)
                 const resp = await axios.get(url)
                 setResult(resp.data)
                 setTotal(resp.data.length)
