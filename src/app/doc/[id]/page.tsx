@@ -42,7 +42,7 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
                     thickness='4px'
                     speed='0.65s'
                     emptyColor='gray.200'
-                    color='teal'
+                    color='#545454'
                     size='xl'
                   />
                 </div>

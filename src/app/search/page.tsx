@@ -40,7 +40,7 @@ export default function SearchPage(props: any) {
                     thickness='4px'
                     speed='0.65s'
                     emptyColor='gray.200'
-                    color='teal'
+                    color='#545454'
                     size='xl'
                   />
                 </div>
