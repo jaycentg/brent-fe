@@ -2,9 +2,11 @@
 
 import { Flex, Spinner } from "@chakra-ui/react";
 import axios from "axios";
+import Head from "next/head";
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const DocumentPage = ({ params }: { params: { id: string } }) => {
     const router = useRouter();
@@ -19,7 +21,8 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
                 const resp = await axios.get(url)
                 setDoc(resp.data)
             } catch(err) {
-                console.log(err)
+                const errorMessage = (err as { message: string }).message;
+                toast.error(errorMessage)
             }
             setLoading(false)
         }
@@ -33,7 +36,7 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
     const showContent = () => {
         if (loading || doc == undefined) {
             return (
-                <div className="flex justify-center items-center w-screen h-[70vh]">
+                <div className="flex justify-center items-center h-[70vh]">
                   <Spinner
                     thickness='4px'
                     speed='0.65s'
@@ -54,6 +57,9 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
 
     return (
         <>
+            <Head>
+                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+            </Head>
             <Flex
                 as="nav"
                 paddingX="5rem"

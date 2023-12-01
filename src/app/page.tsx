@@ -3,6 +3,7 @@
 import Footer from '@/components/footer';
 import { Search2Icon } from '@chakra-ui/icons'
 import { Button, Container, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
+import Head from 'next/head';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -12,6 +13,10 @@ export default function Home() {
   const router = useRouter();
 
   return (
+    <>
+    <Head>
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+    </Head>
     <main className="flex min-h-screen flex-col items-center p-24">
       <Image
         src="/brent_hires.png"
@@ -51,5 +56,6 @@ export default function Home() {
 
       <Footer />
     </main>
+    </>
   )
 }

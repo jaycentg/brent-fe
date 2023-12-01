@@ -5,7 +5,9 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import axios from "axios";
+import Head from "next/head";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function SearchPage(props: any) {
     const query = props["searchParams"]["q"]
@@ -18,12 +20,12 @@ export default function SearchPage(props: any) {
             setLoading(true)
             try {
                 const url = `${process.env.NEXT_PUBLIC_API_HOST}/search?q=${query}`
-                console.log(url)
                 const resp = await axios.get(url)
                 setResult(resp.data)
                 setTotal(resp.data.length)
             } catch (err) {
-                console.log(err)
+                const errorMessage = (err as { message: string }).message;
+                toast.error(errorMessage)
             }
             setLoading(false)
         }
@@ -33,7 +35,7 @@ export default function SearchPage(props: any) {
     const showContent = () => {
         if(loading || result == undefined) {
             return (
-                <div className="flex justify-center items-center w-screen h-[70vh]">
+                <div className="flex justify-center items-center h-[70vh]">
                   <Spinner
                     thickness='4px'
                     speed='0.65s'
@@ -70,6 +72,10 @@ export default function SearchPage(props: any) {
         }
     }
     return (
+        <>
+        <Head>
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+        </Head>
         <main className="flex min-h-screen flex-col">
             <Navbar currQuery={query}/>
             <Box paddingY={5} paddingX={10}>
@@ -78,5 +84,6 @@ export default function SearchPage(props: any) {
             <Box height='4rem'></Box>
             <Footer />       
         </main>
+        </>
     )
 }
