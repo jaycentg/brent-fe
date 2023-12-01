@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/footer";
 import { Flex, Spinner } from "@chakra-ui/react";
 import axios from "axios";
 import Head from "next/head";
@@ -36,7 +37,7 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
     const showContent = () => {
         if (loading || doc == undefined) {
             return (
-                <div className="flex justify-center items-center h-[70vh]">
+                <div className="flex justify-center items-center h-[70vh] bg-white">
                   <Spinner
                     thickness='4px'
                     speed='0.65s'
@@ -48,7 +49,7 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
             )
         } else {
             return (
-                <div className="px-5 w-full text-content-gray">
+                <div className="px-5 w-full text-content-gray bg-white">
                     {doc['content']}
                 </div>
             )
@@ -60,25 +61,28 @@ const DocumentPage = ({ params }: { params: { id: string } }) => {
             <Head>
                 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
             </Head>
-            <Flex
-                as="nav"
-                paddingX="5rem"
-                paddingY="6"
-                width="100%"
-                boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
-                className="justify-center"
-            >
-                <Image 
-                    src="/brent_hires.png" 
-                    alt="Logo" 
-                    width={150} 
-                    height={60} 
-                    onClick={handleImageClick} 
-                    style={{ cursor: 'pointer' }}
-                />
-            </Flex>
-            <div className="font-bold w-full text-2xl p-5 flex justify-center text-content-gray">Document {params.id}</div>
-            {showContent()}
+            <main className="flex min-h-screen flex-col bg-white">
+                <Flex
+                    as="nav"
+                    paddingX="5rem"
+                    paddingY="6"
+                    width="100%"
+                    boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
+                    className="justify-center bg-white"
+                >
+                    <Image 
+                        src="/brent_hires.png" 
+                        alt="Logo" 
+                        width={150} 
+                        height={60} 
+                        onClick={handleImageClick} 
+                        style={{ cursor: 'pointer' }}
+                    />
+                </Flex>
+                <div className="font-bold w-full text-2xl p-5 flex justify-center text-content-gray bg-white">Document {params.id}</div>
+                {showContent()}
+                <Footer />
+            </main>
         </>
     )
 }

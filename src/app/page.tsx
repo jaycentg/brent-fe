@@ -17,7 +17,7 @@ export default function Home() {
     <Head>
       <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
     </Head>
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center p-24 bg-white">
       <Image
         src="/brent_hires.png"
         width={500}

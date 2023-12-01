@@ -76,7 +76,7 @@ export default function SearchPage(props: any) {
         <Head>
             <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
         </Head>
-        <main className="flex min-h-screen flex-col">
+        <main className="flex min-h-screen flex-col bg-white">
             <Navbar currQuery={query}/>
             <Box paddingY={5} paddingX={10}>
                 {showContent()}
